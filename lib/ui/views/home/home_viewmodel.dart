@@ -1,10 +1,7 @@
-import 'package:todo/app/app.bottomsheets.dart';
-import 'package:todo/app/app.dialogs.dart';
 import 'package:todo/app/app.locator.dart';
 import 'package:todo/app/app.router.dart';
 import 'package:todo/model/task.dart';
 import 'package:todo/services/supabase_service.dart';
-import 'package:todo/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -27,7 +24,7 @@ class HomeViewModel extends BaseViewModel {
 
   //Navigate to task screen with task to edit it
   //also onback callback is provided for returning back to screen
-  editTask(Task task) async {
+  editTask(Task task) {
     // await _navigationService.navigateToTaskView(task: task).then((value) {
     //   getAllTasks();
     // });

@@ -1,6 +1,6 @@
 class Task {
-  final String title;
-  final String description;
+  String title;
+  String description;
   int? id;
   DateTime? createdAt;
 

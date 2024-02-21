@@ -3,10 +3,9 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:todo/app/app.locator.dart';
 import 'package:todo/model/task.dart';
 import 'package:todo/services/supabase_service.dart';
-import 'package:todo/ui/views/home/home_viewmodel.dart';
 import 'package:todo/ui/views/task/task_view.form.dart';
 
-class TaskViewModel extends BaseViewModel {
+class TaskViewModel extends FormViewModel {
   final _supabaseService = locator<SupabaseService>();
   final _navigationService = locator<NavigationService>();
 
@@ -17,16 +16,16 @@ class TaskViewModel extends BaseViewModel {
 
   //call editTask of Suprabase Service class
   addTask() async {
-    // _task.title = nameValue ?? "";
-    // _task.description = descriptionValue ?? "";
+    _task.title = titleValue ?? "";
+    _task.description = descriptionValue ?? "";
     await _supabaseService.addTask(_task);
     _navigationService.back();
   }
 
   //call editTask of Suprabase Service class
   updateTask() async {
-    // _task.name = nameValue ?? "";
-    // _task.description = descriptionValue ?? "";
+    _task.title = titleValue ?? "";
+    _task.description = descriptionValue ?? "";
     await _supabaseService.editTask(_task);
     _navigationService.back();
   }

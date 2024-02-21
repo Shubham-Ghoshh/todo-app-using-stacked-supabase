@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:todo/ui/common/app_colors.dart';
 import 'package:todo/ui/common/ui_helpers.dart';
-
 import 'home_viewmodel.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
@@ -21,7 +21,8 @@ class HomeView extends StackedView<HomeViewModel> {
         backgroundColor: kcAppBarColor,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        backgroundColor: kcAppBarColor,
+        onPressed: () => viewModel.addTask(),
         child: const Icon(Icons.add),
       ),
       body: viewModel.isLoading
@@ -65,26 +66,27 @@ class HomeView extends StackedView<HomeViewModel> {
                           verticalSpaceMedium,
                           ...List.generate(viewModel.getTasks.length, (index) {
                             return Container(
-                              margin: const EdgeInsets.all(20),
+                              margin: const EdgeInsets.symmetric(vertical: 20),
                               decoration: const BoxDecoration(
-                                color: Colors.orangeAccent,
+                                color: kcAppBarColor,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(20),
                                 ),
                               ),
                               padding: const EdgeInsets.all(15),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Align(
+                                  Align(
                                     alignment: Alignment.topRight,
                                     child: Text(
-                                      "",
-                                      // DateFormat('dd-MM-yyyy , kk:mm').format(
-                                      //     viewModel.getTasks[index].createdAt!),
+                                      DateFormat('kk:mm, dd/MM/yy').format(
+                                          viewModel.getTasks[index].createdAt!),
                                     ),
                                   ),
                                   Text(
                                     viewModel.getTasks[index].title,
+                                    textAlign: TextAlign.left,
                                     style: const TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
@@ -92,6 +94,7 @@ class HomeView extends StackedView<HomeViewModel> {
                                   verticalSpaceSmall,
                                   Text(
                                     viewModel.getTasks[index].description,
+                                    textAlign: TextAlign.left,
                                     style: const TextStyle(
                                       fontSize: 15,
                                     ),
@@ -122,6 +125,12 @@ class HomeView extends StackedView<HomeViewModel> {
               ),
             ),
     );
+  }
+
+  @override
+  void onViewModelReady(HomeViewModel viewModel) {
+    viewModel.getAllTasks();
+    super.onViewModelReady(viewModel);
   }
 
   @override

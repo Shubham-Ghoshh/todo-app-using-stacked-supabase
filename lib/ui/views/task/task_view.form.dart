@@ -11,7 +11,7 @@ import 'package:stacked/stacked.dart';
 
 const bool _autoTextFieldValidation = true;
 
-const String NameValueKey = 'name';
+const String TitleValueKey = 'title';
 const String DescriptionValueKey = 'description';
 
 final Map<String, TextEditingController> _TaskViewTextEditingControllers = {};
@@ -19,17 +19,17 @@ final Map<String, TextEditingController> _TaskViewTextEditingControllers = {};
 final Map<String, FocusNode> _TaskViewFocusNodes = {};
 
 final Map<String, String? Function(String?)?> _TaskViewTextValidations = {
-  NameValueKey: null,
+  TitleValueKey: null,
   DescriptionValueKey: null,
 };
 
 mixin $TaskView {
-  TextEditingController get nameController =>
-      _getFormTextEditingController(NameValueKey);
+  TextEditingController get titleController =>
+      _getFormTextEditingController(TitleValueKey);
   TextEditingController get descriptionController =>
       _getFormTextEditingController(DescriptionValueKey);
 
-  FocusNode get nameFocusNode => _getFormFocusNode(NameValueKey);
+  FocusNode get titleFocusNode => _getFormFocusNode(TitleValueKey);
   FocusNode get descriptionFocusNode => _getFormFocusNode(DescriptionValueKey);
 
   TextEditingController _getFormTextEditingController(
@@ -56,7 +56,7 @@ mixin $TaskView {
   /// Registers a listener on every generated controller that calls [model.setData()]
   /// with the latest textController values
   void syncFormWithViewModel(FormStateHelper model) {
-    nameController.addListener(() => _updateFormData(model));
+    titleController.addListener(() => _updateFormData(model));
     descriptionController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
@@ -69,7 +69,7 @@ mixin $TaskView {
     'This feature was deprecated after 3.1.0.',
   )
   void listenToFormUpdated(FormViewModel model) {
-    nameController.addListener(() => _updateFormData(model));
+    titleController.addListener(() => _updateFormData(model));
     descriptionController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
@@ -80,7 +80,7 @@ mixin $TaskView {
     model.setData(
       model.formValueMap
         ..addAll({
-          NameValueKey: nameController.text,
+          TitleValueKey: titleController.text,
           DescriptionValueKey: descriptionController.text,
         }),
     );
@@ -123,17 +123,17 @@ extension ValueProperties on FormStateHelper {
     return !hasAnyValidationMessage;
   }
 
-  String? get nameValue => this.formValueMap[NameValueKey] as String?;
+  String? get titleValue => this.formValueMap[TitleValueKey] as String?;
   String? get descriptionValue =>
       this.formValueMap[DescriptionValueKey] as String?;
 
-  set nameValue(String? value) {
+  set titleValue(String? value) {
     this.setData(
-      this.formValueMap..addAll({NameValueKey: value}),
+      this.formValueMap..addAll({TitleValueKey: value}),
     );
 
-    if (_TaskViewTextEditingControllers.containsKey(NameValueKey)) {
-      _TaskViewTextEditingControllers[NameValueKey]?.text = value ?? '';
+    if (_TaskViewTextEditingControllers.containsKey(TitleValueKey)) {
+      _TaskViewTextEditingControllers[TitleValueKey]?.text = value ?? '';
     }
   }
 
@@ -147,40 +147,40 @@ extension ValueProperties on FormStateHelper {
     }
   }
 
-  bool get hasName =>
-      this.formValueMap.containsKey(NameValueKey) &&
-      (nameValue?.isNotEmpty ?? false);
+  bool get hasTitle =>
+      this.formValueMap.containsKey(TitleValueKey) &&
+      (titleValue?.isNotEmpty ?? false);
   bool get hasDescription =>
       this.formValueMap.containsKey(DescriptionValueKey) &&
       (descriptionValue?.isNotEmpty ?? false);
 
-  bool get hasNameValidationMessage =>
-      this.fieldsValidationMessages[NameValueKey]?.isNotEmpty ?? false;
+  bool get hasTitleValidationMessage =>
+      this.fieldsValidationMessages[TitleValueKey]?.isNotEmpty ?? false;
   bool get hasDescriptionValidationMessage =>
       this.fieldsValidationMessages[DescriptionValueKey]?.isNotEmpty ?? false;
 
-  String? get nameValidationMessage =>
-      this.fieldsValidationMessages[NameValueKey];
+  String? get titleValidationMessage =>
+      this.fieldsValidationMessages[TitleValueKey];
   String? get descriptionValidationMessage =>
       this.fieldsValidationMessages[DescriptionValueKey];
 }
 
 extension Methods on FormStateHelper {
-  setNameValidationMessage(String? validationMessage) =>
-      this.fieldsValidationMessages[NameValueKey] = validationMessage;
+  setTitleValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[TitleValueKey] = validationMessage;
   setDescriptionValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[DescriptionValueKey] = validationMessage;
 
   /// Clears text input fields on the Form
   void clearForm() {
-    nameValue = '';
+    titleValue = '';
     descriptionValue = '';
   }
 
   /// Validates text input fields on the Form
   void validateForm() {
     this.setValidationMessages({
-      NameValueKey: getValidationMessage(NameValueKey),
+      TitleValueKey: getValidationMessage(TitleValueKey),
       DescriptionValueKey: getValidationMessage(DescriptionValueKey),
     });
   }
@@ -201,6 +201,6 @@ String? getValidationMessage(String key) {
 /// Updates the fieldsValidationMessages on the FormViewModel
 void updateValidationData(FormStateHelper model) =>
     model.setValidationMessages({
-      NameValueKey: getValidationMessage(NameValueKey),
+      TitleValueKey: getValidationMessage(TitleValueKey),
       DescriptionValueKey: getValidationMessage(DescriptionValueKey),
     });

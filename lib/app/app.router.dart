@@ -8,7 +8,8 @@
 import 'package:flutter/material.dart' as _i5;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i6;
+import 'package:stacked_services/stacked_services.dart' as _i7;
+import 'package:todo/model/task.dart' as _i6;
 import 'package:todo/ui/views/home/home_view.dart' as _i2;
 import 'package:todo/ui/views/startup/startup_view.dart' as _i3;
 import 'package:todo/ui/views/task/task_view.dart' as _i4;
@@ -57,8 +58,11 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i4.TaskView: (data) {
+      final args = data.getArgs<TaskViewArguments>(
+        orElse: () => const TaskViewArguments(),
+      );
       return _i5.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i4.TaskView(),
+        builder: (context) => _i4.TaskView(key: args.key, task: args.task),
         settings: data,
       );
     },
@@ -71,7 +75,34 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i6.NavigationService {
+class TaskViewArguments {
+  const TaskViewArguments({
+    this.key,
+    this.task,
+  });
+
+  final _i5.Key? key;
+
+  final _i6.Task? task;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "task": "$task"}';
+  }
+
+  @override
+  bool operator ==(covariant TaskViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.task == task;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ task.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i7.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -100,14 +131,17 @@ extension NavigatorStateExtension on _i6.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToTaskView([
+  Future<dynamic> navigateToTaskView({
+    _i5.Key? key,
+    _i6.Task? task,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.taskView,
+        arguments: TaskViewArguments(key: key, task: task),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -142,14 +176,17 @@ extension NavigatorStateExtension on _i6.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithTaskView([
+  Future<dynamic> replaceWithTaskView({
+    _i5.Key? key,
+    _i6.Task? task,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.taskView,
+        arguments: TaskViewArguments(key: key, task: task),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

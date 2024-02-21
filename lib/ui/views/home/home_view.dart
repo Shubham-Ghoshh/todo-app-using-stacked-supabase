@@ -65,6 +65,15 @@ class HomeView extends StackedView<HomeViewModel> {
                         children: [
                           verticalSpaceMedium,
                           ...List.generate(viewModel.getTasks.length, (index) {
+                            DateTime gmtTime =
+                                viewModel.getTasks[index].createdAt!;
+                            // Adding 5 hours and 30 minutes to convert to IST
+                            DateTime istTime = gmtTime
+                                .add(const Duration(hours: 5, minutes: 30));
+                            // Formatting the IST time using the desired format
+                            String formattedISTTime =
+                                DateFormat(' hh:mm a, dd/MM/yy')
+                                    .format(istTime);
                             return Container(
                               margin: const EdgeInsets.symmetric(vertical: 20),
                               decoration: const BoxDecoration(
@@ -80,8 +89,7 @@ class HomeView extends StackedView<HomeViewModel> {
                                   Align(
                                     alignment: Alignment.topRight,
                                     child: Text(
-                                      DateFormat('kk:mm, dd/MM/yy').format(
-                                          viewModel.getTasks[index].createdAt!),
+                                      formattedISTTime,
                                     ),
                                   ),
                                   Text(

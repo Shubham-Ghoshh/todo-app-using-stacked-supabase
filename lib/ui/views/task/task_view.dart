@@ -83,7 +83,7 @@ class TaskView extends StackedView<TaskViewModel> with $TaskView {
                   backgroundColor: MaterialStatePropertyAll(kcAppBarColor),
                 ),
                 onPressed: task != null
-                    ? () => viewModel.updateTask
+                    ? () => viewModel.updateTask()
                     : () => viewModel.addTask(),
                 child: Text(
                   task != null ? "Update" : "Add",

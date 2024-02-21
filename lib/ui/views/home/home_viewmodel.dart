@@ -24,10 +24,10 @@ class HomeViewModel extends BaseViewModel {
 
   //Navigate to task screen with task to edit it
   //also onback callback is provided for returning back to screen
-  editTask(Task task) {
-    // await _navigationService.navigateToTaskView(task: task).then((value) {
-    //   getAllTasks();
-    // });
+  editTask(Task task) async {
+    await _navigationService.navigateToTaskView(task: task).then((value) {
+      getAllTasks();
+    });
   }
 
   //Navigate to task screen to add it
